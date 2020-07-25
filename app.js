@@ -15,12 +15,23 @@ const server = http.createServer((req, res) => {
     }
 
     if (url === '/message' && method === 'POST') {
-        fs.writeFileSync('msg.txt', 'dummy');
-        // res.writeHead(302, {}) one way of doing the below
 
-        res.statusCode = 302;
-        res.setHeader('Location', '/');
-        return res.end();
+        // streaming of data in chucks (buffer)
+        const body = [];
+        req.on('data', (chunck) => {
+            console.log(chunck);
+            body.push(chunck);
+        });
+        return req.on('end', () => {
+            const parseBody = Buffer.concat(body).toString();
+            const message = parseBody.split('=')[1];
+            fs.writeFile('msg.txt', message, (err) => {
+                // if there was a possible error ... it would be handled here, gracefully
+                res.statusCode = 302;
+                res.setHeader('Location', '/');
+                return res.end();
+            }); 
+        });
     }
 
     res.setHeader('Content-Type', 'text/html');
