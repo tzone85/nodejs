@@ -1,7 +1,6 @@
-#include<iostream>
-using namespace std;
+#include <iostream>
 int main(){
-	int var1, var2, var3, var4, var5;
-	cout <<var1 << var2 << var3 << var4 << var5 << endl;
+	
+	std::cout <<"Hello MaQwathi!! ";
 	return 0;
 }
