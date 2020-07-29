@@ -1,16 +1,8 @@
-const http = require('http');
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
-app.use((req, res, next) => {
-    console.log("in the middleware");
-    next(); // allows request to go to the next middleware
-});
 
-app.use((req, res, next) => {
-    console.log("in another the middleware");
-})
+app.use(bodyParser.urlencoded({extended: false}));
 
-const server = http.createServer(app);
-
-server.listen(3000);
+app.listen(3000);
